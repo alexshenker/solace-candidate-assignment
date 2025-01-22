@@ -46,7 +46,9 @@ export default function Home() {
         advocate.lastName.toLowerCase().includes(termNormalized) ||
         advocate.city.toLowerCase().includes(termNormalized) ||
         advocate.degree.toLowerCase().includes(termNormalized) ||
-        advocate.specialties.some((s) => s.toLowerCase() === termNormalized) ||
+        advocate.specialties.some((s) =>
+          s.toLowerCase().includes(termNormalized)
+        ) ||
         `${advocate.yearsOfExperience}`.includes(termNormalized)
       );
     });
@@ -58,7 +60,7 @@ export default function Home() {
 
   return (
     <main style={{ margin: "24px" }}>
-      <h1>Solace Advocates</h1>
+      <h1 className="text-3xl">Solace Advocates</h1>
       <br />
       <br />
       <div>
@@ -75,7 +77,6 @@ export default function Home() {
           Reset Search
         </button>
       </div>
-      <br />
       <br />
       <table className="w-full text-sm text-left rtl:text-right text-gray-600 ">
         <thead className="text-xs text-gray-600 uppercase bg-gray-50">
