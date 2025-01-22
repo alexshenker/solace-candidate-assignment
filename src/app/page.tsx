@@ -6,8 +6,8 @@ import { z } from "zod";
 
 //temp placement
 const Res = z.object({
-  data: Advocate.array()
-})
+  data: Advocate.array(),
+});
 
 export default function Home() {
   const [advocates, setAdvocates] = useState<Advocate[]>([]);
@@ -17,14 +17,15 @@ export default function Home() {
     console.log("fetching advocates...");
     fetch("/api/advocates").then((response) => {
       response.json().then((jsonResponse) => {
-        const parsed = Res.safeParse(jsonResponse)
+        const parsed = Res.safeParse(jsonResponse);
 
         if (parsed.success) {
           setAdvocates(jsonResponse.data);
           setFilteredAdvocates(jsonResponse.data);
-
         } else {
-          console.error(`Unexpected response data: ${JSON.stringify(parsed.error.issues)}`)
+          console.error(
+            `Unexpected response data: ${JSON.stringify(parsed.error.issues)}`
+          );
         }
       });
     });
@@ -72,13 +73,27 @@ export default function Home() {
       <br />
       <table>
         <thead>
-       <tr><th>First Name</th></tr>
-     <tr><th>Last Name</th></tr>
-        <tr><th>City</th></tr>
-       <tr><th>Degree</th></tr>
-      <tr><th>Specialties</th></tr>
-       <tr><th>Years of Experience</th></tr>
-    <tr><th>Phone Number</th></tr>
+          <tr>
+            <th>First Name</th>
+          </tr>
+          <tr>
+            <th>Last Name</th>
+          </tr>
+          <tr>
+            <th>City</th>
+          </tr>
+          <tr>
+            <th>Degree</th>
+          </tr>
+          <tr>
+            <th>Specialties</th>
+          </tr>
+          <tr>
+            <th>Years of Experience</th>
+          </tr>
+          <tr>
+            <th>Phone Number</th>
+          </tr>
         </thead>
         <tbody>
           {filteredAdvocates.map((advocate) => {
@@ -89,7 +104,7 @@ export default function Home() {
                 <td>{advocate.city}</td>
                 <td>{advocate.degree}</td>
                 <td>
-                  {advocate.specialties.map((s) => ( 
+                  {advocate.specialties.map((s) => (
                     //Assuming no duplicates
                     <div key={s}>{s}</div>
                   ))}

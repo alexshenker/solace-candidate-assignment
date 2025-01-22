@@ -30,8 +30,7 @@ const specialties = [
   "Domestic abuse",
 ] as const;
 
-const Specialty = z.enum(specialties)
-
+const Specialty = z.enum(specialties);
 
 const randomSpecialty = () => {
   const random1 = Math.floor(Math.random() * 24);
@@ -41,22 +40,22 @@ const randomSpecialty = () => {
 };
 
 declare const AdvocateIdSymbol: unique symbol;
-type AdvocateId = string & {[AdvocateIdSymbol]: void}
-const AdvocateId = z.custom<AdvocateId>()
+type AdvocateId = string & { [AdvocateIdSymbol]: void };
+const AdvocateId = z.custom<AdvocateId>();
 
-const makeAdvocateId = () => v4() as AdvocateId
+const makeAdvocateId = () => v4() as AdvocateId;
 
 export const Advocate = z.object({
   id: AdvocateId,
   firstName: z.string(),
-lastName:  z.string(),
-city:  z.string(),
-degree:  z.string(),
-specialties: Specialty.array(),
-yearsOfExperience: z.number().int(),
-phoneNumber: z.number().int()
-})
-export type Advocate = z.infer<typeof Advocate>
+  lastName: z.string(),
+  city: z.string(),
+  degree: z.string(),
+  specialties: Specialty.array(),
+  yearsOfExperience: z.number().int(),
+  phoneNumber: z.number().int(),
+});
+export type Advocate = z.infer<typeof Advocate>;
 
 const advocateData: Advocate[] = [
   {
