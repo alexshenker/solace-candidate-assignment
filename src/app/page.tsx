@@ -62,13 +62,10 @@ export default function Home() {
       <br />
       <br />
       <div>
-        <p>Search</p>
-        <p>
-          Searching for: <span id="search-term"></span>
-        </p>
         <input
           value={searchTerm}
           onChange={onChange}
+          placeholder="Search..."
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus-visible:outline-none focus:ring-teal-500 focus:border-teal-500 p-2.5 inline-block"
         />
         <button
