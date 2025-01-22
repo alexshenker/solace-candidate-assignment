@@ -75,7 +75,7 @@ export default function Home() {
       </div>
       <br />
       <br />
-      <table className="w-full text-sm text-left rtl:text-right text-gray-600 dark:text-gray-600">
+      <table className="w-full text-sm text-left rtl:text-right text-gray-600 ">
         <thead className="text-xs text-gray-600 uppercase bg-gray-50">
           <tr>
             <th className="px-6 py-3">First Name</th>
