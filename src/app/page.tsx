@@ -1,7 +1,7 @@
 "use client";
 
 import { Advocate } from "@/db/seed/advocates";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { z } from "zod";
 
 //temp placement
@@ -31,20 +31,22 @@ export default function Home() {
     });
   }, []);
 
-  const onChange = (e) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const searchTerm = e.target.value;
 
     document.getElementById("search-term").innerHTML = searchTerm;
 
     console.log("filtering advocates...");
     const filteredAdvocates = advocates.filter((advocate) => {
+      const termNormalized = searchTerm.trim().toLowerCase();
+
       return (
-        advocate.firstName.includes(searchTerm) ||
-        advocate.lastName.includes(searchTerm) ||
-        advocate.city.includes(searchTerm) ||
-        advocate.degree.includes(searchTerm) ||
-        advocate.specialties.includes(searchTerm) ||
-        advocate.yearsOfExperience.includes(searchTerm)
+        advocate.firstName.toLowerCase().includes(termNormalized) ||
+        advocate.lastName.toLowerCase().includes(termNormalized) ||
+        advocate.city.toLowerCase().includes(termNormalized) ||
+        advocate.degree.toLowerCase().includes(termNormalized) ||
+        advocate.specialties.some((s) => s.toLowerCase() === termNormalized) ||
+        `${advocate.yearsOfExperience}`.includes(termNormalized)
       );
     });
 
