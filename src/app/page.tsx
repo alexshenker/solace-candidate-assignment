@@ -1,17 +1,31 @@
 "use client";
 
+import { Advocate } from "@/db/seed/advocates";
 import { useEffect, useState } from "react";
+import { z } from "zod";
+
+//temp placement
+const Res = z.object({
+  data: Advocate.array()
+})
 
 export default function Home() {
-  const [advocates, setAdvocates] = useState([]);
-  const [filteredAdvocates, setFilteredAdvocates] = useState([]);
+  const [advocates, setAdvocates] = useState<Advocate[]>([]);
+  const [filteredAdvocates, setFilteredAdvocates] = useState<Advocate[]>([]);
 
   useEffect(() => {
     console.log("fetching advocates...");
     fetch("/api/advocates").then((response) => {
       response.json().then((jsonResponse) => {
-        setAdvocates(jsonResponse.data);
-        setFilteredAdvocates(jsonResponse.data);
+        const parsed = Res.safeParse(jsonResponse)
+
+        if (parsed.success) {
+          setAdvocates(jsonResponse.data);
+          setFilteredAdvocates(jsonResponse.data);
+
+        } else {
+          console.error(`Unexpected response data: ${JSON.stringify(parsed.error.issues)}`)
+        }
       });
     });
   }, []);
@@ -69,14 +83,15 @@ export default function Home() {
         <tbody>
           {filteredAdvocates.map((advocate) => {
             return (
-              <tr>
+              <tr key={advocate.id}>
                 <td>{advocate.firstName}</td>
                 <td>{advocate.lastName}</td>
                 <td>{advocate.city}</td>
                 <td>{advocate.degree}</td>
                 <td>
-                  {advocate.specialties.map((s) => (
-                    <div>{s}</div>
+                  {advocate.specialties.map((s) => ( 
+                    //Assuming no duplicates
+                    <div key={s}>{s}</div>
                   ))}
                 </td>
                 <td>{advocate.yearsOfExperience}</td>

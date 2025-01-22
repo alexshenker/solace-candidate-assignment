@@ -1,5 +1,5 @@
-import db from "..";
-import { advocates } from "../schema";
+import { v4 } from "uuid";
+import { z } from "zod";
 
 const specialties = [
   "Bipolar",
@@ -28,7 +28,10 @@ const specialties = [
   "Schizophrenia and psychotic disorders",
   "Learning disorders",
   "Domestic abuse",
-];
+] as const;
+
+const Specialty = z.enum(specialties)
+
 
 const randomSpecialty = () => {
   const random1 = Math.floor(Math.random() * 24);
@@ -37,8 +40,27 @@ const randomSpecialty = () => {
   return [random1, random2];
 };
 
-const advocateData = [
+declare const AdvocateIdSymbol: unique symbol;
+type AdvocateId = string & {[AdvocateIdSymbol]: void}
+const AdvocateId = z.custom<AdvocateId>()
+
+const makeAdvocateId = () => v4() as AdvocateId
+
+export const Advocate = z.object({
+  id: AdvocateId,
+  firstName: z.string(),
+lastName:  z.string(),
+city:  z.string(),
+degree:  z.string(),
+specialties: Specialty.array(),
+yearsOfExperience: z.number().int(),
+phoneNumber: z.number().int()
+})
+export type Advocate = z.infer<typeof Advocate>
+
+const advocateData: Advocate[] = [
   {
+    id: makeAdvocateId(),
     firstName: "John",
     lastName: "Doe",
     city: "New York",
@@ -48,6 +70,7 @@ const advocateData = [
     phoneNumber: 5551234567,
   },
   {
+    id: makeAdvocateId(),
     firstName: "Jane",
     lastName: "Smith",
     city: "Los Angeles",
@@ -57,6 +80,7 @@ const advocateData = [
     phoneNumber: 5559876543,
   },
   {
+    id: makeAdvocateId(),
     firstName: "Alice",
     lastName: "Johnson",
     city: "Chicago",
@@ -66,6 +90,7 @@ const advocateData = [
     phoneNumber: 5554567890,
   },
   {
+    id: makeAdvocateId(),
     firstName: "Michael",
     lastName: "Brown",
     city: "Houston",
@@ -75,6 +100,7 @@ const advocateData = [
     phoneNumber: 5556543210,
   },
   {
+    id: makeAdvocateId(),
     firstName: "Emily",
     lastName: "Davis",
     city: "Phoenix",
@@ -84,6 +110,7 @@ const advocateData = [
     phoneNumber: 5553210987,
   },
   {
+    id: makeAdvocateId(),
     firstName: "Chris",
     lastName: "Martinez",
     city: "Philadelphia",
@@ -93,6 +120,7 @@ const advocateData = [
     phoneNumber: 5557890123,
   },
   {
+    id: makeAdvocateId(),
     firstName: "Jessica",
     lastName: "Taylor",
     city: "San Antonio",
@@ -102,6 +130,7 @@ const advocateData = [
     phoneNumber: 5554561234,
   },
   {
+    id: makeAdvocateId(),
     firstName: "David",
     lastName: "Harris",
     city: "San Diego",
@@ -111,6 +140,7 @@ const advocateData = [
     phoneNumber: 5557896543,
   },
   {
+    id: makeAdvocateId(),
     firstName: "Laura",
     lastName: "Clark",
     city: "Dallas",
@@ -120,6 +150,7 @@ const advocateData = [
     phoneNumber: 5550123456,
   },
   {
+    id: makeAdvocateId(),
     firstName: "Daniel",
     lastName: "Lewis",
     city: "San Jose",
@@ -129,6 +160,7 @@ const advocateData = [
     phoneNumber: 5553217654,
   },
   {
+    id: makeAdvocateId(),
     firstName: "Sarah",
     lastName: "Lee",
     city: "Austin",
@@ -138,6 +170,7 @@ const advocateData = [
     phoneNumber: 5551238765,
   },
   {
+    id: makeAdvocateId(),
     firstName: "James",
     lastName: "King",
     city: "Jacksonville",
@@ -147,6 +180,7 @@ const advocateData = [
     phoneNumber: 5556540987,
   },
   {
+    id: makeAdvocateId(),
     firstName: "Megan",
     lastName: "Green",
     city: "San Francisco",
@@ -156,6 +190,7 @@ const advocateData = [
     phoneNumber: 5559873456,
   },
   {
+    id: makeAdvocateId(),
     firstName: "Joshua",
     lastName: "Walker",
     city: "Columbus",
@@ -165,6 +200,7 @@ const advocateData = [
     phoneNumber: 5556781234,
   },
   {
+    id: makeAdvocateId(),
     firstName: "Amanda",
     lastName: "Hall",
     city: "Fort Worth",
