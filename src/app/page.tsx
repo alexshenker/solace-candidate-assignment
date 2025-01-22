@@ -1,7 +1,7 @@
 "use client";
 
 import { Advocate } from "@/db/seed/advocates";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { z } from "zod";
 
 //temp placement
@@ -11,7 +11,7 @@ const Res = z.object({
 
 export default function Home() {
   const [advocates, setAdvocates] = useState<Advocate[]>([]);
-  const [filteredAdvocates, setFilteredAdvocates] = useState<Advocate[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   useEffect(() => {
     console.log("fetching advocates...");
@@ -21,7 +21,6 @@ export default function Home() {
 
         if (parsed.success) {
           setAdvocates(jsonResponse.data);
-          setFilteredAdvocates(jsonResponse.data);
         } else {
           console.error(
             `Unexpected response data: ${JSON.stringify(parsed.error.issues)}`
@@ -32,14 +31,16 @@ export default function Home() {
   }, []);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const searchTerm = e.target.value;
+    setSearchTerm(e.target.value);
+  };
 
-    document.getElementById("search-term").innerHTML = searchTerm;
+  const filteredAdvocates = useMemo(() => {
+    const termNormalized = searchTerm.trim().toLowerCase();
+    if (termNormalized.length === 0) {
+      return advocates;
+    }
 
-    console.log("filtering advocates...");
-    const filteredAdvocates = advocates.filter((advocate) => {
-      const termNormalized = searchTerm.trim().toLowerCase();
-
+    return advocates.filter((advocate) => {
       return (
         advocate.firstName.toLowerCase().includes(termNormalized) ||
         advocate.lastName.toLowerCase().includes(termNormalized) ||
@@ -49,13 +50,10 @@ export default function Home() {
         `${advocate.yearsOfExperience}`.includes(termNormalized)
       );
     });
+  }, [advocates, searchTerm]);
 
-    setFilteredAdvocates(filteredAdvocates);
-  };
-
-  const onClick = () => {
-    console.log(advocates);
-    setFilteredAdvocates(advocates);
+  const reset = () => {
+    setSearchTerm("");
   };
 
   return (
@@ -68,8 +66,12 @@ export default function Home() {
         <p>
           Searching for: <span id="search-term"></span>
         </p>
-        <input style={{ border: "1px solid black" }} onChange={onChange} />
-        <button onClick={onClick}>Reset Search</button>
+        <input
+          style={{ border: "1px solid black" }}
+          value={searchTerm}
+          onChange={onChange}
+        />
+        <button onClick={reset}>Reset Search</button>
       </div>
       <br />
       <br />
