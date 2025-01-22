@@ -77,23 +77,11 @@ export default function Home() {
         <thead>
           <tr>
             <th>First Name</th>
-          </tr>
-          <tr>
             <th>Last Name</th>
-          </tr>
-          <tr>
             <th>City</th>
-          </tr>
-          <tr>
             <th>Degree</th>
-          </tr>
-          <tr>
             <th>Specialties</th>
-          </tr>
-          <tr>
             <th>Years of Experience</th>
-          </tr>
-          <tr>
             <th>Phone Number</th>
           </tr>
         </thead>
