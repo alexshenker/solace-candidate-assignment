@@ -75,34 +75,34 @@ export default function Home() {
       </div>
       <br />
       <br />
-      <table>
-        <thead>
+      <table className="w-full text-sm text-left rtl:text-right text-gray-600 dark:text-gray-600">
+        <thead className="text-xs text-gray-600 uppercase bg-gray-50">
           <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>City</th>
-            <th>Degree</th>
-            <th>Specialties</th>
-            <th>Years of Experience</th>
-            <th>Phone Number</th>
+            <th className="px-6 py-3">First Name</th>
+            <th className="px-6 py-3">Last Name</th>
+            <th className="px-6 py-3">City</th>
+            <th className="px-6 py-3">Degree</th>
+            <th className="px-6 py-3">Specialties</th>
+            <th className="px-6 py-3">Years of Experience</th>
+            <th className="px-6 py-3">Phone Number</th>
           </tr>
         </thead>
         <tbody>
           {filteredAdvocates.map((advocate) => {
             return (
-              <tr key={advocate.id}>
-                <td>{advocate.firstName}</td>
-                <td>{advocate.lastName}</td>
-                <td>{advocate.city}</td>
-                <td>{advocate.degree}</td>
-                <td>
+              <tr className="bg-white border-b" key={advocate.id}>
+                <td className="px-6 py-4">{advocate.firstName}</td>
+                <td className="px-6 py-4">{advocate.lastName}</td>
+                <td className="px-6 py-4">{advocate.city}</td>
+                <td className="px-6 py-4">{advocate.degree}</td>
+                <td className="px-6 py-4">
                   {advocate.specialties.map((s) => (
                     //Assuming no duplicates
                     <div key={s}>{s}</div>
                   ))}
                 </td>
-                <td>{advocate.yearsOfExperience}</td>
-                <td>{advocate.phoneNumber}</td>
+                <td className="px-6 py-4">{advocate.yearsOfExperience}</td>
+                <td className="px-6 py-4">{advocate.phoneNumber}</td>
               </tr>
             );
           })}
